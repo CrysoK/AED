@@ -3,6 +3,12 @@
 public class Main {
 
   public static void main(String[] args) {
-    System.out.println("Main.java");
+    /*
+     * Replit: Para ejecutar un archivo en específico se debe usar la consola,
+     * por ejemplo 'java TP7.Main'. También se pueden llamar en este mismo
+     * archivo y usar el botón Run.
+     */
+
+    TP7.OList.main(args);
   }
 }
