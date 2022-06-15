@@ -1,7 +1,5 @@
 package TP7;
 
-import java.util.Iterator;
-
 // import java.util.Comparator;
 
 public abstract class List implements CLineal2 {
@@ -68,6 +66,26 @@ public abstract class List implements CLineal2 {
     return true;
   }
 
+  public int[] toIntArray() {
+    NodoD current = this.first;
+    int[] array = new int[this.length()];
+    for (int i = 0; i < this.length(); i++) {
+      array[i] = (int) current.getDato();
+      current = current.getNext();
+    }
+    return array;
+  }
+
+  public char[] toCharArray() {
+    NodoD current = this.first;
+    char[] array = new char[this.length()];
+    for (int i = 0; i < this.length(); i++) {
+      array[i] = (char) current.getDato();
+      current = current.getNext();
+    }
+    return array;
+  }
+
   protected NodoD getNodo(int pos) {
     return getNodo(pos, this.lastPos, this.first, this.last);
   }
@@ -77,23 +95,21 @@ public abstract class List implements CLineal2 {
    * doblemente enlazada de avanzar y retroceder.
    *
    * @param pos posición del nodo a devolver
-   * @param max última posición de la lista
+   * @param endPos última posición de la lista
    * @param start nodo inicial de la lista
    * @param end nodo final de la lista
    * @return nodo de la posición pos
    */
-  protected NodoD getNodo(int pos, int max, NodoD start, NodoD end) {
-    int midP = max / 2;
+  protected NodoD getNodo(int pos, int endPos, NodoD start, NodoD end) {
+    int midP = endPos / 2;
     int step = pos <= midP ? 1 : -1;
-    int startP = pos <= midP ? 0 : this.lastPos;
+    int initP = pos <= midP ? 0 : endPos;
     NodoD current = pos <= midP ? start : end;
-    for (int i = startP; i != pos; i += step) {
+    for (int i = initP; i != pos; i += step) {
       current = current.getByDir(step);
     }
     return current;
   }
-
-  // public abstract int search(T dato, Comparator<T> c);
 
   /**
    * El iterador permite recorrer la lista desde fuera de la clase de forma más
@@ -104,7 +120,7 @@ public abstract class List implements CLineal2 {
     return new Iterador(this.getNodo(inicio));
   }
 
-  public class Iterador implements Iterator<Object> {
+  public class Iterador {
 
     private NodoD actual;
 

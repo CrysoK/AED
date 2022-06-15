@@ -115,10 +115,8 @@ public class Primos {
       while (
         iM <= uN &&
         (
-          nums[iM] ==
-          0 || // si es 0, ya fue "tachado"
-          primo ==
-          Math.abs(nums[iM]) || // si es primo, no se tacha
+          nums[iM] == 0 || // si es 0, ya fue "tachado"
+          primo == Math.abs(nums[iM]) || // si es primo, no se tacha
           Div.restoEnt(nums[iM], primo) != 0 // si no es múltiplo, no se
           // tacha
         )

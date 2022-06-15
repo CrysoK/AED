@@ -22,20 +22,23 @@ public class OList extends List implements CLineal4 {
 
   public boolean insert(Object dato) {
     if (this.isEmpty()) {
+      // Insertar en lista vacía
       this.first = this.last = new NodoD(dato);
     } else if (this.c.compare(dato, this.first.getDato()) < 0) {
+      // Insertar al principio
       this.first = new NodoD(dato, this.first);
       this.first.getNext().setPrev(this.first);
     } else if (this.c.compare(dato, this.last.getDato()) >= 0) {
+      // Insertar al final
       this.last = new NodoD(dato, this.last, null);
       this.last.getPrev().setNext(this.last);
     } else {
-      NodoD current = this.first;
-      while (this.c.compare(dato, current.getDato()) >= 0) {
-        current = current.getNext();
-      }
-      current.getPrev().setNext(new NodoD(dato, current, current.getNext()));
-      current.getNext().setPrev(current.getPrev().getNext());
+      // Insertar en medio
+      Object[] aux = searchNodePos(dato, this.c);
+      NodoD nodo = (NodoD) aux[0];
+      NodoD nuevo = new NodoD(dato, nodo, nodo.getNext());
+      nuevo.getNext().setPrev(nuevo);
+      nodo.setNext(nuevo);
     }
     this.lastPos++;
     return true;
@@ -46,29 +49,37 @@ public class OList extends List implements CLineal4 {
   }
 
   public int search(Object dato, Comparator<Object> c) {
-    // Búsqueda binaria
-    int startPos = 0;
-    int endPos = this.lastPos;
-    int midPos = endPos / 2;
-    NodoD start = this.first;
-    NodoD end = this.last;
-    NodoD mid = getNodo(midPos);
+    return (int) searchNodePos(dato, c)[1];
+  }
 
-    while (startPos != endPos) {
-      if (c.compare(dato, mid.getDato()) == 0) {
-        return midPos;
-      }
+  private Object[] searchNodePos(Object dato, Comparator<Object> c) {
+    // Búsqueda binaria
+    int izqPos = 0;
+    int derPos = this.lastPos;
+    NodoD izq = this.first;
+    NodoD der = this.last;
+
+    while (izqPos != derPos) {
+      int midPos = (int) Math.ceil((float) (izqPos + derPos) / 2.0);
+      NodoD mid = getNodo(midPos - izqPos, derPos - izqPos, izq, der);
+
+      System.out.println(
+        "izqPos: " + izqPos + " midPos: " + midPos + " derPos: " + derPos
+      );
+      System.out.println("izq: " + izq + " mid: " + mid + " der: " + der);
+
       if (c.compare(dato, mid.getDato()) < 0) {
-        endPos = midPos;
-        end = mid;
+        derPos = midPos - 1;
+        der = mid.getPrev();
       } else {
-        startPos = midPos;
-        start = mid;
+        izqPos = midPos;
+        izq = mid;
       }
-      midPos = (startPos + endPos) / 2;
-      mid = getNodo(midPos, endPos, start, end);
     }
-    return -1;
+    if (c.compare(dato, izq.getDato()) != 0) {
+      izqPos = -1;
+    }
+    return new Object[] { izq, izqPos };
   }
 
   public String toString() {
@@ -83,24 +94,24 @@ public class OList extends List implements CLineal4 {
   }
 
   public static void main(String[] args) {
-    OList lista2 = new OList((a, b) ->
+    OList lista = new OList((a, b) ->
       ((Integer) a).intValue() - ((Integer) b).intValue()
     );
 
-    lista2.insert(100);
-    lista2.insert(90);
-    lista2.insert(80);
-    lista2.insert(70);
+    lista.insert(100);
+    lista.insert(90);
+    lista.insert(80);
+    lista.insert(70);
 
-    System.out.println(lista2);
+    System.out.println(lista);
     System.out.println();
 
-    lista2.insert(55);
-    lista2.insert(77);
-    System.out.println(lista2);
+    lista.insert(55);
+    lista.insert(77);
+    System.out.println(lista);
 
     System.out.println();
-    System.out.println("90 en que posicion esta? " + lista2.search(90));
-    System.out.println("-90 en que posicion esta? " + lista2.search(-90));
+    System.out.println("90 en que posicion esta? " + lista.search(90));
+    System.out.println("-90 en que posicion esta? " + lista.search(-90));
   }
 }

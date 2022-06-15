@@ -2,7 +2,6 @@ package TP4;
 
 import TP1.Primos;
 import TP7.UList;
-import java.util.Iterator;
 
 public class E6 {
 
@@ -22,14 +21,7 @@ public class E6 {
       fac.insert(1);
       fac.insert(n);
     }
-    int[] res = new int[fac.length()];
-    Iterator<Object> it = fac.iterador(0);
-
-    for (int j = 0; j < res.length; j++) {
-      res[j] = (int) it.next();
-    }
-
-    return res;
+    return fac.toIntArray();
   }
 
   public static UList factoresRec(int n, UList fac, int[] primos, int i) {
