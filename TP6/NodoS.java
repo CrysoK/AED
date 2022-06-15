@@ -3,33 +3,33 @@ package TP6;
 // EJERCICIO 3
 
 // Nodo simplemente enlazado
-public class NodoS<T> {
+public class NodoS {
 
-  private T dato;
-  private NodoS<T> next;
+  private Object dato;
+  private NodoS next;
 
-  public NodoS(T dato) {
+  public NodoS(Object dato) {
     this(dato, null);
   }
 
-  public NodoS(T dato, NodoS<T> next) {
+  public NodoS(Object dato, NodoS next) {
     this.dato = dato;
     this.next = next;
   }
 
-  public T getDato() {
+  public Object getDato() {
     return this.dato;
   }
 
-  public NodoS<T> getNext() {
+  public NodoS getNext() {
     return this.next;
   }
 
-  public void setDato(T dato) {
+  public void setDato(Object dato) {
     this.dato = dato;
   }
 
-  public void setNext(NodoS<T> next) {
+  public void setNext(NodoS next) {
     this.next = next;
   }
 
@@ -55,15 +55,13 @@ public class NodoS<T> {
    * @formatter:on
    */
   public static void main(String[] args) {
-    NodoS<Integer> lista = new NodoS<Integer>(25);
-    NodoS<Integer> A = new NodoS<Integer>(30);
-    NodoS<Integer> B = new NodoS<Integer>(80);
+    NodoS lista = new NodoS(25);
+    NodoS A = new NodoS(30);
+    NodoS B = new NodoS(80);
     lista.setNext(A);
-    A.setNext(
-      new NodoS<Integer>(45, new NodoS<Integer>(60, new NodoS<Integer>(65, B)))
-    );
-    B.setNext(new NodoS<Integer>(90));
-    NodoS<Integer> aux = lista;
+    A.setNext(new NodoS(45, new NodoS(60, new NodoS(65, B))));
+    B.setNext(new NodoS(90));
+    NodoS aux = lista;
     System.out.println("Lista");
     while (aux != null) {
       System.out.println(aux);

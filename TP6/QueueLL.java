@@ -2,25 +2,25 @@ package TP6;
 
 // EJERCICIO 6
 
-public class QueueLL<T> extends Queue<T> {
+public class QueueLL extends Queue {
 
-  protected NodoS<T> first;
-  protected NodoS<T> last;
+  protected NodoS first;
+  protected NodoS last;
 
-  public boolean push(T dato) {
+  public boolean push(Object dato) {
     if (isEmpty()) {
-      this.first = this.last = new NodoS<T>(dato);
+      this.first = this.last = new NodoS(dato);
     } else {
-      this.last.setNext(new NodoS<T>(dato));
+      this.last.setNext(new NodoS(dato));
       this.last = this.last.getNext();
     }
     return true;
     // La operación podría fallar?
   }
 
-  public T pop() {
+  public Object pop() {
     if (isEmpty()) return null;
-    T dato = this.first.getDato();
+    Object dato = this.first.getDato();
     this.first = this.first.getNext();
     if (this.first == null) this.last = null;
     return dato;

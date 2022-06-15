@@ -12,7 +12,7 @@ public class E6 {
    */
   public static int[] factoresPrimos(int n) {
     if (n <= 0) return new int[0];
-    UList<Integer> fac = new UList<Integer>();
+    UList fac = new UList();
     int max = (int) Math.round(Math.sqrt(n));
     int[] primos = Primos.elimCeros(Primos.criba(max));
     int i = 0;
@@ -23,21 +23,16 @@ public class E6 {
       fac.insert(n);
     }
     int[] res = new int[fac.length()];
-    Iterator<Integer> it = fac.iterador(0);
+    Iterator<Object> it = fac.iterador(0);
 
     for (int j = 0; j < res.length; j++) {
-      res[j] = it.next();
+      res[j] = (int) it.next();
     }
 
     return res;
   }
 
-  public static UList<Integer> factoresRec(
-    int n,
-    UList<Integer> fac,
-    int[] primos,
-    int i
-  ) {
+  public static UList factoresRec(int n, UList fac, int[] primos, int i) {
     if (n <= 1 || i >= primos.length) {
       return fac;
     }

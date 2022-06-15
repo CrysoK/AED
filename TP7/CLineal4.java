@@ -1,5 +1,5 @@
 package TP7;
 
-public interface CLineal4<Tipo> {
-  public boolean insert(Tipo dato);
+public interface CLineal4 {
+  public boolean insert(Object dato);
 }

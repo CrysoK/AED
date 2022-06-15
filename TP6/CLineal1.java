@@ -2,10 +2,10 @@ package TP6;
 
 // EJERCICIO 1
 
-public interface CLineal1<T> {
-  boolean push(T dato);
+public interface CLineal1 {
+  boolean push(Object dato);
 
-  T pop();
+  Object pop();
 
   void clear();
 

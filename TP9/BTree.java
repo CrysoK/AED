@@ -1,9 +1,16 @@
 package TP9;
 
-public class BTree<T> {
-    private NodoBT<T> raiz;
+public class BTree {
 
-    public BTree(){
-        
-    }
+  private NodoBT raiz;
+
+  public BTree() {
+    this(null);
+  }
+
+  public BTree(NodoBT raiz) {
+    this.raiz = raiz;
+  }
+
+  
 }

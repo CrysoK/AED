@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 // import java.util.Comparator;
 
-public abstract class List<T> implements CLineal2<T> {
+public abstract class List implements CLineal2 {
 
-  protected NodoD<T> first, last;
+  protected NodoD first, last;
   protected int lastPos;
 
   public List() {
@@ -26,7 +26,7 @@ public abstract class List<T> implements CLineal2<T> {
     return this.lastPos + 1;
   }
 
-  public T get(int pos) {
+  public Object get(int pos) {
     if (this.isEmpty()) {
       System.out.println("Lista vacía");
       return null;
@@ -35,7 +35,7 @@ public abstract class List<T> implements CLineal2<T> {
       System.out.println("Posición inválida");
       return null;
     }
-    NodoD<T> current = getNodo(pos);
+    NodoD current = getNodo(pos);
     return current.getDato();
   }
 
@@ -50,9 +50,7 @@ public abstract class List<T> implements CLineal2<T> {
     }
     if (pos == 0) {
       // Eliminar primer elemento
-      if (this.first == this.last)
-        this.clear();
-      else {
+      if (this.first == this.last) this.clear(); else {
         this.first = this.first.getNext();
         this.first.setPrev(null);
       }
@@ -62,7 +60,7 @@ public abstract class List<T> implements CLineal2<T> {
       this.last.setNext(null);
     } else {
       // Eliminar elemento intermedio
-      NodoD<T> current = getNodo(pos);
+      NodoD current = getNodo(pos);
       current.getPrev().setNext(current.getNext());
       current.getNext().setPrev(current.getPrev());
     }
@@ -70,7 +68,7 @@ public abstract class List<T> implements CLineal2<T> {
     return true;
   }
 
-  protected NodoD<T> getNodo(int pos) {
+  protected NodoD getNodo(int pos) {
     return getNodo(pos, this.lastPos, this.first, this.last);
   }
 
@@ -84,11 +82,11 @@ public abstract class List<T> implements CLineal2<T> {
    * @param end nodo final de la lista
    * @return nodo de la posición pos
    */
-  protected NodoD<T> getNodo(int pos, int max, NodoD<T> start, NodoD<T> end) {
+  protected NodoD getNodo(int pos, int max, NodoD start, NodoD end) {
     int midP = max / 2;
     int step = pos <= midP ? 1 : -1;
     int startP = pos <= midP ? 0 : this.lastPos;
-    NodoD<T> current = pos <= midP ? start : end;
+    NodoD current = pos <= midP ? start : end;
     for (int i = startP; i != pos; i += step) {
       current = current.getByDir(step);
     }
@@ -102,17 +100,15 @@ public abstract class List<T> implements CLineal2<T> {
    * eficiente.
    */
   public Iterador iterador(int inicio) {
-    if (this.length() == 0)
-      return null;
+    if (this.length() == 0) return null;
     return new Iterador(this.getNodo(inicio));
   }
 
-  public class Iterador implements Iterator<T> {
+  public class Iterador implements Iterator<Object> {
 
-    private NodoD<T> actual;
-    private int pos;
+    private NodoD actual;
 
-    public Iterador(NodoD<T> inicio) {
+    public Iterador(NodoD inicio) {
       this.actual = inicio;
     }
 
@@ -120,10 +116,9 @@ public abstract class List<T> implements CLineal2<T> {
       return this.actual.getNext() != null;
     }
 
-    public T next() {
-      T dato = this.actual.getDato();
+    public Object next() {
+      Object dato = this.actual.getDato();
       this.actual = this.actual.getNext();
-      this.pos++;
       return dato;
     }
 
@@ -131,10 +126,9 @@ public abstract class List<T> implements CLineal2<T> {
       return this.actual.getPrev() != null;
     }
 
-    public T previous() {
-      T dato = this.actual.getDato();
+    public Object previous() {
+      Object dato = this.actual.getDato();
       this.actual = this.actual.getPrev();
-      this.pos--;
       return dato;
     }
   }

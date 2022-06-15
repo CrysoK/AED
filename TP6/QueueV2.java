@@ -2,7 +2,7 @@ package TP6;
 
 // EJERCICIO 10
 
-public class QueueV2<T> extends QueueLL<T> {
+public class QueueV2 extends QueueLL {
 
   private int cardinal;
 
@@ -13,7 +13,7 @@ public class QueueV2<T> extends QueueLL<T> {
   }
 
   // Si push es exitoso, se incrementa el cardinal.
-  public boolean push(T dato) {
+  public boolean push(Object dato) {
     if (super.push(dato)) {
       this.cardinal++;
       return true;
@@ -22,8 +22,8 @@ public class QueueV2<T> extends QueueLL<T> {
   }
 
   // Si pop es exitoso, se decrementa el cardinal.
-  public T pop() {
-    T dato = super.pop();
+  public Object pop() {
+    Object dato = super.pop();
     if (dato != null) this.cardinal--;
     return dato;
   }
@@ -45,7 +45,7 @@ public class QueueV2<T> extends QueueLL<T> {
    * @Postcondición: Cola en orden inverso.
    */
   public void reverse() {
-    Stack<T> pila = new StackLL<T>();
+    Stack pila = new StackLL();
     while (!this.isEmpty()) pila.push(this.pop());
     while (!pila.isEmpty()) this.push(pila.pop());
   }
@@ -57,12 +57,12 @@ public class QueueV2<T> extends QueueLL<T> {
    * @Postcondición: Cola tiene los elementos de {@code q} añadidos al final
    *                 manteniendo el orden.
    */
-  public void concat(QueueV2<T> q) {
+  public void concat(QueueV2 q) {
     while (!q.isEmpty()) this.push(q.pop());
   }
 
   public static void main(String[] args) {
-    QueueV2<Integer> q1 = new QueueV2<Integer>();
+    QueueV2 q1 = new QueueV2();
     q1.push(1);
     q1.push(2);
     q1.push(3);
@@ -73,7 +73,7 @@ public class QueueV2<T> extends QueueLL<T> {
     q1.push(8);
     q1.push(9);
     q1.push(10);
-    QueueV2<Integer> q2 = new QueueV2<Integer>();
+    QueueV2 q2 = new QueueV2();
     q2.push(11);
     q2.push(12);
     q2.push(13);

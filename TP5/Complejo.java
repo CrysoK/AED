@@ -2,6 +2,7 @@ package TP5;
 
 // EJERCICIO 4 /////////////////////////////////////////////////////////////////
 
+// TODO
 public class Complejo implements Operaciones {
 
   private double r;
@@ -68,5 +69,13 @@ public class Complejo implements Operaciones {
 
   public double modulo() {
     return 0;
+  }
+
+  // PRUEBAS ///////////////////////////////////////////////////////////////////
+  public static void main(String[] args) {
+    Complejo a = new Complejo(1, 2);
+    Complejo b = new Complejo(2, 3);
+    Complejo res = (Complejo) a.suma(b);
+    System.out.println(res);
   }
 }

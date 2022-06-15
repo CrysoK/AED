@@ -2,11 +2,11 @@ package TP7;
 
 import java.util.Comparator;
 
-public class UList<T> extends List<T> implements CLineal3<T> {
+public class UList extends List implements CLineal3 {
 
-  public int search(T dato, Comparator<T> c) {
+  public int search(Object dato, Comparator<Object> c) {
     int i = 0;
-    NodoD<T> current = this.first;
+    NodoD current = this.first;
     while (i <= this.lastPos && c.compare(dato, current.getDato()) != 0) {
       current = current.getNext();
       i++;
@@ -14,12 +14,12 @@ public class UList<T> extends List<T> implements CLineal3<T> {
     return current == null ? -1 : i;
   }
 
-  public boolean insert(T dato, int pos) {
+  public boolean insert(Object dato, int pos) {
     if (pos < 0 || pos > this.lastPos + 1) {
       System.out.println("Posición inválida");
       return false;
     }
-    NodoD<T> newNode = new NodoD<T>(dato);
+    NodoD newNode = new NodoD(dato);
     if (pos == 0) {
       newNode.setNext(this.first);
       this.first = newNode;
@@ -29,7 +29,7 @@ public class UList<T> extends List<T> implements CLineal3<T> {
       this.last.setNext(newNode);
       this.last = newNode;
     } else {
-      NodoD<T> current = getNodo(pos);
+      NodoD current = getNodo(pos);
       newNode.setNext(current.getNext());
       newNode.setPrev(current);
       current.getNext().setPrev(newNode);
@@ -39,11 +39,11 @@ public class UList<T> extends List<T> implements CLineal3<T> {
     return true;
   }
 
-  public boolean insert(T dato) {
+  public boolean insert(Object dato) {
     return insert(dato, this.lastPos + 1);
   }
 
-  public boolean replace(T dato, int pos) {
+  public boolean replace(Object dato, int pos) {
     if (this.isEmpty()) {
       System.out.println("Lista vacía");
       return false;
@@ -57,7 +57,7 @@ public class UList<T> extends List<T> implements CLineal3<T> {
     } else if (pos == this.lastPos) {
       this.last.setDato(dato);
     } else {
-      NodoD<T> current = getNodo(pos);
+      NodoD current = getNodo(pos);
       current.setDato(dato);
     }
     return true;
@@ -66,7 +66,7 @@ public class UList<T> extends List<T> implements CLineal3<T> {
   // PRUEBAS ///////////////////////////////////////////////////////////////////
 
   public static void main(String[] args) {
-    UList<Integer> l = new UList<Integer>();
+    UList l = new UList();
     l.insert(1);
     l.insert(2);
     l.insert(3);

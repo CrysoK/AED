@@ -14,8 +14,8 @@ public class E8 {
    * @param a Elemento a reemplazar
    * @param b Elemento por el que reemplazar
    */
-  public static void reemplazar(Stack<Integer> pila, int a, int b) {
-    Stack<Integer> aux = new StackLL<Integer>();
+  public static void reemplazar(Stack pila, int a, int b) {
+    Stack aux = new StackLL();
     int temp;
     // Búsqueda de a
     do {
@@ -29,7 +29,7 @@ public class E8 {
   }
 
   public static void main(String[] args) {
-    Stack<Integer> pila = new StackArr<Integer>(10);
+    Stack pila = new StackArr(10);
 
     pila.push(1);
     pila.push(2);

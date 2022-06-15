@@ -2,18 +2,17 @@ package TP6;
 
 // EJERCICIO 2
 
-public class StackArr<T> extends Stack<T> {
+public class StackArr extends Stack {
 
-  private T[] stack;
+  private Object[] stack;
   private int top;
 
-  @SuppressWarnings("unchecked")
   public StackArr(int size) {
-    this.stack = (T[]) new Object[size];
+    this.stack = new Object[size];
     this.top = -1;
   }
 
-  public boolean push(T dato) {
+  public boolean push(Object dato) {
     if (!isFull()) {
       this.top += 1;
       this.stack[top] = dato;
@@ -23,9 +22,9 @@ public class StackArr<T> extends Stack<T> {
     }
   }
 
-  public T pop() {
+  public Object pop() {
     if (!isEmpty()) {
-      T dato = stack[top];
+      Object dato = stack[top];
       this.top -= 1;
       return dato;
     } else {

@@ -1,44 +1,45 @@
 package TP9;
 
-public class NodoBT<T> {
-    private T dato;
-    private NodoBT<T> izq;
-    private NodoBT<T> der;
+public class NodoBT {
 
-    public NodoBT<T>(T dato, NodoBT<T> izq, NodoBT<T> der){
-        this.izq = izq;
-        this.der = der;
-    }
+  private Object dato;
+  private NodoBT izq;
+  private NodoBT der;
 
-    public NodoBT<T>(T dato){
-        this(dato, null, null);
-    }
+  public NodoBT(Object dato, NodoBT izq, NodoBT der) {
+    this.izq = izq;
+    this.der = der;
+  }
 
-    public T getDato(NodoBT<T>){
-        return this.dato;
-    }
+  public NodoBT(Object dato) {
+    this(dato, null, null);
+  }
 
-    public NodoBT<T> getIzq(NodoBT<T>){
-        return this.izq;
-    }
+  public Object getDato() {
+    return this.dato;
+  }
 
-    public NodoBT<T> getDer(NodoBT<T>){
-        return this.der;
-    }
+  public NodoBT getIzq() {
+    return this.izq;
+  }
 
-    public void setDato(T dato) {
-        this.dato = dato;
-    }
+  public NodoBT getDer() {
+    return this.der;
+  }
 
-    public void setIzq(NodoBT<T> izq){
-        this.izq = izq;
-    }
+  public void setDato(Object dato) {
+    this.dato = dato;
+  }
 
-    public void setDer(NodoBT<T> der){
-        this.der = der;
-    }
+  public void setIzq(NodoBT izq) {
+    this.izq = izq;
+  }
 
-    public String toString(){
-        return this.dato.toString();
-    }
+  public void setDer(NodoBT der) {
+    this.der = der;
+  }
+
+  public String toString() {
+    return this.dato.toString();
+  }
 }

@@ -2,23 +2,23 @@ package TP6;
 
 // EJERCICIO 5
 
-public class StackLL<T> extends Stack<T> {
+public class StackLL extends Stack {
 
-  private NodoS<T> head;
+  private NodoS head;
 
   public StackLL() {
     this.head = null;
   }
 
-  public boolean push(T dato) {
-    this.head = new NodoS<T>(dato, this.head);
+  public boolean push(Object dato) {
+    this.head = new NodoS(dato, this.head);
     return true;
     // La operación podría fallar?
   }
 
-  public T pop() {
+  public Object pop() {
     if (isEmpty()) return null;
-    T dato = this.head.getDato();
+    Object dato = this.head.getDato();
     this.head = this.head.getNext();
     return dato;
   }

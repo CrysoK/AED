@@ -1,49 +1,49 @@
 package TP7;
 
-public class NodoD<Tipo> {
+public class NodoD {
 
-  private Tipo dato;
-  private NodoD<Tipo> prev, next;
+  private Object dato;
+  private NodoD prev, next;
 
-  public NodoD(Tipo dato) {
+  public NodoD(Object dato) {
     this(dato, null, null);
   }
 
-  public NodoD(Tipo dato, NodoD<Tipo> next) {
+  public NodoD(Object dato, NodoD next) {
     this(dato, null, next);
   }
 
-  public NodoD(Tipo dato, NodoD<Tipo> prev, NodoD<Tipo> next) {
+  public NodoD(Object dato, NodoD prev, NodoD next) {
     this.dato = dato;
     this.prev = prev;
     this.next = next;
   }
 
-  public Tipo getDato() {
+  public Object getDato() {
     return dato;
   }
 
-  public NodoD<Tipo> getPrev() {
+  public NodoD getPrev() {
     return prev;
   }
 
-  public NodoD<Tipo> getNext() {
+  public NodoD getNext() {
     return next;
   }
 
-  public NodoD<Tipo> getByDir(int dir) {
+  public NodoD getByDir(int dir) {
     return dir == 1 ? next : prev;
   }
 
-  public void setDato(Tipo dato) {
+  public void setDato(Object dato) {
     this.dato = dato;
   }
 
-  public void setPrev(NodoD<Tipo> prev) {
+  public void setPrev(NodoD prev) {
     this.prev = prev;
   }
 
-  public void setNext(NodoD<Tipo> next) {
+  public void setNext(NodoD next) {
     this.next = next;
   }
 

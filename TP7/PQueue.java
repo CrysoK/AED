@@ -11,43 +11,43 @@ import java.util.Comparator;
  * funcionalidad del contenedor.
  */
 
-public class PQueue<T> extends QueueLL<T> {
+public class PQueue extends QueueLL {
 
-  private Comparator<T> comparador;
+  private Comparator<Object> comparador;
 
-  public PQueue(Comparator<T> c) {
+  public PQueue(Comparator<Object> c) {
     super();
     comparador = c;
   }
 
   // Se inserta ordenando de mayor a menor.
-  public boolean push(T dato) {
+  public boolean push(Object dato) {
     if (super.isEmpty()) {
-      super.first = super.last = new NodoS<T>(dato);
+      super.first = super.last = new NodoS(dato);
       // Si es mayor al primero
     } else if (comparador.compare(dato, super.first.getDato()) > 0) {
-      super.first = new NodoS<T>(dato, super.first);
+      super.first = new NodoS(dato, super.first);
       // Si es menor al último
     } else if (comparador.compare(dato, super.last.getDato()) < 0) {
-      super.last.setNext(new NodoS<T>(dato));
+      super.last.setNext(new NodoS(dato));
       super.last = super.last.getNext();
       // Si está en el medio, se posiciona a la izquierda si es mayor y a la
       // derecha si es igual o menor.
     } else {
-      NodoS<T> current = super.first;
-      NodoS<T> prev = null;
+      NodoS current = super.first;
+      NodoS prev = null;
       while (
         current != null && comparador.compare(dato, current.getDato()) <= 0
       ) {
         prev = current;
         current = current.getNext();
       }
-      prev.setNext(new NodoS<T>(dato, current));
+      prev.setNext(new NodoS(dato, current));
     }
     return true;
   }
 
-  public T pop() {
+  public Object pop() {
     return super.pop();
   }
 
@@ -60,8 +60,8 @@ public class PQueue<T> extends QueueLL<T> {
   }
 
   public static void main(String[] args) {
-    PQueue<Proceso> colaPrioridad = new PQueue<Proceso>(
-      (a, b) -> a.getPrioridad() - b.getPrioridad()
+    PQueue colaPrioridad = new PQueue((a, b) ->
+      ((Proceso) a).getPrioridad() - ((Proceso) b).getPrioridad()
     );
 
     colaPrioridad.push(new Proceso("p1", 1));

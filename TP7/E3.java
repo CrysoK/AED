@@ -12,10 +12,10 @@ public class E3 {
 
   static class Binario {
 
-    private UList<Integer> num;
+    private UList num;
 
     public Binario(String numero) {
-      num = new UList<Integer>();
+      num = new UList();
       for (int i = 0; i < numero.length(); i++) {
         num.insert((int) numero.charAt(i), i);
       }
@@ -29,6 +29,7 @@ public class E3 {
       return str.toString();
     }
 
+    // TODO
     public Binario sumar(Binario b) {
       int a = Integer.valueOf(this.toString(), 2);
       int bb = Integer.valueOf(b.toString(), 2);

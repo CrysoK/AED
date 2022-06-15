@@ -18,4 +18,6 @@ package TP7;
  * Simule esta situación usando una lista (de PCS) y una cola (de estudiantes en espera).
  */
 
-public class E5 {}
+public class E5 {
+  // TODO
+}

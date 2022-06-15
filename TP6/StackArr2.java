@@ -2,12 +2,12 @@ package TP6;
 
 // EJERCICIO 7
 
-public class StackArr2<T> extends StackArr<T> {
+public class StackArr2 extends StackArr {
 
   // Obtener tope sin eliminarlo
-  public T tope() {
+  public Object tope() {
     if (isEmpty()) return null;
-    T dato = this.pop();
+    Object dato = this.pop();
     this.push(dato);
     return dato;
   }

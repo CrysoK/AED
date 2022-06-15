@@ -11,7 +11,7 @@ public class Div {
    * Implemente un algoritmo que devuelva todos los factores positivos de un
    * entero positivo dado.
    */
-  public static int[] factoresPositivos(int n) {
+  public static int[] factoresPositivos(int n) { // TODO Corregir
     if (n <= 0) return new int[0];
 
     List<Integer> factores = new ArrayList<Integer>();

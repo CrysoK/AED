@@ -2,28 +2,27 @@ package TP6;
 
 // EJERCICIO 4
 
-public class QueueArr<T> extends Queue<T> {
+public class QueueArr extends Queue {
 
-  private T[] datos;
+  private Object[] datos;
   private int first;
   private int last;
 
-  @SuppressWarnings("unchecked")
   public QueueArr(int size) {
-    this.datos = (T[]) new Object[size + 1];
+    this.datos = new Object[size + 1];
     clear();
   }
 
-  public boolean push(T dato) {
+  public boolean push(Object dato) {
     if (isFull()) return false;
     if (this.last != this.datos.length - 1) this.last += 1; else this.last = 0;
     this.datos[this.last] = dato;
     return true;
   }
 
-  public T pop() {
+  public Object pop() {
     if (isEmpty()) return null;
-    T dato = this.datos[this.first];
+    Object dato = this.datos[this.first];
     if (this.first != this.datos.length - 1) this.first += 1; else this.first =
       0;
     return dato;

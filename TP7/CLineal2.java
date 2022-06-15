@@ -2,10 +2,10 @@ package TP7;
 
 import java.util.Comparator;
 
-public interface CLineal2<Tipo> {
-  public int search(Tipo dato, Comparator<Tipo> c);
+public interface CLineal2 {
+  public int search(Object dato, Comparator<Object> c);
 
-  public Tipo get(int pos);
+  public Object get(int pos);
 
   public boolean del(int pos);
 

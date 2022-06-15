@@ -8,11 +8,11 @@ public class E11 {
    * en el mismo orden.
    */
 
-  public static Queue<Integer> separarCapicuas(Stack<Integer> pila) {
+  public static Queue separarCapicuas(Stack pila) {
     // Pila para mantener el orden original de los capicúas
-    Stack<Integer> auxCapicuas = new StackLL<Integer>();
-    Queue<Integer> capicuas = new QueueLL<Integer>();
-    Queue<Integer> noCapicuas = new QueueLL<Integer>();
+    Stack auxCapicuas = new StackLL();
+    Queue capicuas = new QueueLL();
+    Queue noCapicuas = new QueueLL();
     // Separa los números
     while (!pila.isEmpty()) {
       int temp = (int) pila.pop();
@@ -43,7 +43,7 @@ public class E11 {
   }
 
   public static void main(String[] args) {
-    Stack<Integer> pila = new StackArr<Integer>(10);
+    Stack pila = new StackArr(10);
 
     pila.push(101);
     pila.push(43);
@@ -56,16 +56,16 @@ public class E11 {
     pila.push(923);
     pila.push(404);
 
-    Stack<Integer> pila2 = new StackArr<Integer>(10);
+    Stack pila2 = new StackArr(10);
 
     System.out.println("Pila original:");
     while (!pila.isEmpty()) {
-      Integer temp = pila.pop();
+      int temp = (int) pila.pop();
       System.out.println(temp);
       pila2.push(temp);
     }
 
-    Queue<Integer> capicuas = separarCapicuas(pila2);
+    Queue capicuas = separarCapicuas(pila2);
 
     System.out.println("Capicuas (cola):");
     while (!capicuas.isEmpty()) {

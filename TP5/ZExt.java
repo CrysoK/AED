@@ -6,13 +6,11 @@ public class ZExt extends Entero implements OpsExt {
 
   public ZExt(int num) {
     super(num);
-    //TODO Auto-generated constructor stub
+    //TODO
   }
 
-  @Override
   public Object division(Object b) {
-    // TODO Auto-generated method stub
+    // TODO
     return null;
   }
-  // TODO
 }
