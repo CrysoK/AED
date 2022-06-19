@@ -2,37 +2,37 @@ package Utils;
 
 public class Par {
 
-  int c1;
-  int c2;
+  Object componente1;
+  Object componente2;
 
-  public Par(int a, int b) {
-    c1 = a;
-    c2 = b;
+  public Par(Object a, Object b) {
+    componente1 = a;
+    componente2 = b;
   }
 
-  public int get1() {
-    return c1;
+  public Object get1() {
+    return componente1;
   }
 
-  public int get2() {
-    return c2;
+  public Object get2() {
+    return componente2;
   }
 
-  public int c1() {
-    return c1;
+  public Object c1() {
+    return componente1;
   }
 
-  public int c2() {
-    return c2;
+  public Object c2() {
+    return componente2;
   }
 
-  public int get(int componente) {
-    if (componente == 1) return c1;
-    if (componente == 2) return c2;
+  public Object get(int componente) {
+    if (componente == 1) return componente1;
+    if (componente == 2) return componente2;
     return 0;
   }
 
   public String toString() {
-    return String.format("(%d, %d)", this.c1, this.c2);
+    return "(" + componente1.toString() + ", " + componente2.toString() + ")";
   }
 }

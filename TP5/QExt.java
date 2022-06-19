@@ -4,6 +4,11 @@ package TP5;
 
 public class QExt extends Racional implements OpsExt {
 
+  public QExt(Entero a, Entero b) {
+    super(a, b);
+    //TODO Auto-generated constructor stub
+  }
+
   public Object suma(Object b) {
     // TODO
     return null;

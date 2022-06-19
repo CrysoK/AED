@@ -17,8 +17,8 @@ public class E5 {
     int c = Div.cocienteEnt(a, b);
     int r = Div.restoEnt(a, b);
     Par st = calcST(b, r);
-    int s = st.c1();
-    int t = st.c2();
+    int s = (int) st.c1();
+    int t = (int) st.c2();
     return new Par(t, s - t * c);
   }
 

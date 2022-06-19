@@ -1,5 +1,8 @@
 package TP5;
 
+import TP1.Div;
+import TP2.MCD;
+
 // EJERCICIO 2
 
 public class Entero implements Operaciones {
@@ -8,6 +11,11 @@ public class Entero implements Operaciones {
 
   public Entero(int num) {
     n = num;
+  }
+
+  // Casteo pero más "corto"
+  public static Entero Z(Object a) {
+    return (Entero) a;
   }
 
   /* Método auxiliar para obtener int de un Object */
@@ -32,7 +40,6 @@ public class Entero implements Operaciones {
     for (int i = 0; i < Int(exp); i++) {
       res = res * n;
     }
-
     return new Entero(res);
   }
 
@@ -40,7 +47,15 @@ public class Entero implements Operaciones {
     return n == Int(b);
   }
 
+  public Object division(Object b) {
+    return new Entero(Div.cocienteEnt(this.n, Int(b)));
+  }
+
   public Object resto(Object b) {
-    return null;
+    return new Entero(Div.restoEnt(this.n, Int(b)));
+  }
+
+  public Object mcd(Object b) {
+    return new Entero(MCD.mcd(this.n, Int(b)));
   }
 }
