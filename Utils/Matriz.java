@@ -9,10 +9,14 @@ public class Matriz {
   public Matriz(int filas, int columnas) {
     this.filas = filas;
     this.columnas = columnas;
-    matriz = new Object[filas][columnas];
+    this.matriz = new Object[filas][columnas];
   }
 
-  protected Matriz() {}
+  protected Matriz() {
+    this.filas = 0;
+    this.columnas = 0;
+    this.matriz = null;
+  }
 
   public int getFilas() {
     return filas;
@@ -23,10 +27,30 @@ public class Matriz {
   }
 
   public void set(Object valor, int fila, int columna) {
+    if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
+      System.out.printf(
+        "Error: indices [%d][%d] fuera de rango, máximo: [%d][%d]\n",
+        fila,
+        columna,
+        filas,
+        columnas
+      );
+      return;
+    }
     matriz[fila][columna] = valor;
   }
 
   public Object get(int fila, int columna) {
+    if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
+      System.out.printf(
+        "Error: indices [%d][%d] fuera de rango, máximo: [%d][%d]\n",
+        fila,
+        columna,
+        filas,
+        columnas
+      );
+      return null;
+    }
     return matriz[fila][columna];
   }
 
@@ -52,7 +76,7 @@ public class Matriz {
     return sb.toString();
   }
 
-  private int[] anchoCols() {
+  protected int[] anchoCols() {
     int[] res = new int[columnas];
     for (int f = 0; f < filas; f++) {
       for (int c = 0; c < columnas; c++) {

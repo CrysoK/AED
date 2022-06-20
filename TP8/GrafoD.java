@@ -1,6 +1,7 @@
 package TP8;
 
 import Utils.Matriz;
+import java.util.Scanner;
 
 public class GrafoD extends Grafo {
 
@@ -10,6 +11,28 @@ public class GrafoD extends Grafo {
 
   public GrafoD(String archivo) {
     super(archivo);
+  }
+
+  public GrafoD(Scanner input) {
+    // El cambio de Locale sirve para usar el punto como separador decimal
+    System.out.print("Ingrese el orden del grafo: ");
+    this.orden = input.nextInt();
+    this.matriz = new MatrizG(orden);
+    for (int v = 0; v < orden; v++) {
+      for (int d = 0; d < orden; d++) {
+        if (v != d) {
+          System.out.printf("%d <-> %d = ", v, d);
+          String costo = quitarCeros(input.nextDouble());
+          matriz.set(costo, v, d);
+        } else {
+          matriz.set("-1", v, d);
+        }
+      }
+    }
+  }
+
+  public void toFile(String archivo) {
+    matriz.writeToFile(archivo, "D");
   }
 
   public class Dijkstra {
@@ -28,7 +51,7 @@ public class GrafoD extends Grafo {
       // Calcular distancias y caminos iniciales
       for (int i = 0; i < orden; i++) {
         if (i == inicio) continue;
-        costos[i] = matriz.getDouble(inicio, i);
+        costos[i] = matriz.getCosto(inicio, i);
         caminos[i] = inicio;
       }
 
@@ -57,7 +80,7 @@ public class GrafoD extends Grafo {
 
         for (int v = 0; v < orden; v++) {
           if (visitados[v]) continue;
-          costoSig = matriz.getDouble(verticeMin, v); // Posible infinito
+          costoSig = matriz.getCosto(verticeMin, v); // Posible infinito
           if (esMenor(sumar(costoMin, costoSig), costos[v])) {
             costos[v] = costoMin + costoSig;
             caminos[v] = verticeMin;
@@ -75,7 +98,7 @@ public class GrafoD extends Grafo {
     }
 
     public void print(int hasta) {
-      System.out.println("Dijkstra:");
+      System.out.println("[Dijkstra]");
       System.out.printf(
         "Camino con menor costo desde %d hasta %d (total: %.2f)\n",
         inicio,
@@ -94,57 +117,51 @@ public class GrafoD extends Grafo {
     private void caminoInverso(int v) {
       if (v == -1/*  || caminos[v] == -1 */) return;
       int c = caminos[v];
-      if (c != -1) {
-        caminoInverso(c);
-        System.out.printf(
-          "%d -> %d = %.2f (%.2f)\n",
-          c,
-          v,
-          matriz.getDouble(c, v),
-          costos[v]
-        );
-      }
+      if (c == -1) return;
+      caminoInverso(c);
+      System.out.printf(
+        "%d -> %d = %.2f (%.2f)\n",
+        c,
+        v,
+        matriz.getCosto(c, v),
+        costos[v]
+      );
       // System.out.printf("%d -> %d (%.2f) \n", caminos[v], v, costo);
     }
   }
 
   public class Floyd {
 
-    private MatrizG costos;
-    private Matriz caminos;
+    private MatrizG costos = new MatrizG(orden);
+    private MatrizG caminos = new MatrizG(orden);
 
     public Floyd() {
-      costos = new MatrizG(orden);
-      caminos = new MatrizG(orden);
-
-      for (int f = 0; f < orden; f++) {
-        for (int c = 0; c < orden; c++) {
-          if (f != c) {
-            costos.set(matriz.getInt(f, c), f, c);
+      // Inicialización de costos y caminos
+      for (int i = 0; i < orden; i++) {
+        for (int j = 0; j < orden; j++) {
+          if (i != j) {
+            double costo = matriz.getCosto(i, j);
+            costos.set(costo, i, j);
           } else {
-            costos.set(0, f, c);
+            costos.set((double) 0, i, j);
           }
+          caminos.set(-1, i, j);
         }
       }
 
-      for (int k = 0; k < orden; k++) {
-        for (int i = 0; i < orden; i++) {
-          for (int j = 0; j < orden; j++) {
-            int costoA = (int) costos.get(i, k);
-            int costoB = (int) costos.get(k, j);
-            int costoC = (int) costos.get(i, j);
-            if (costoA + costoB < costoC) {
-              costos.set(costoA + costoB, i, j);
-              caminos.set(k, i, j);
+      for (int v = 0; v < orden; v++) {
+        for (int f = 0; f < orden; f++) {
+          for (int c = 0; c < orden; c++) {
+            double costoA = costos.getCosto(f, v);
+            double costoB = costos.getCosto(v, c);
+            double costoC = costos.getCosto(f, c);
+            if (esMenor(sumar(costoA, costoB), costoC)) {
+              costos.set(costoA + costoB, f, c);
+              caminos.set(v, f, c);
             }
           }
         }
       }
-    }
-
-    public void print() {
-      System.out.println("Floyd:");
-      printCostosP(costos);
     }
 
     public MatrizG getCostos() {
@@ -153,6 +170,52 @@ public class GrafoD extends Grafo {
 
     public Matriz getCaminos() {
       return caminos;
+    }
+
+    public void printCostos() {
+      System.out.println("[Floyd]");
+      System.out.println("Costos mínimos entre pares de vértices:");
+      printCostosP(costos);
+    }
+
+    public void printCaminos() {
+      System.out.println("[Floyd]");
+      System.out.println("Caminos con costo mínimo entre pares de vértices:");
+      for (int i = 0; i < orden; i++) {
+        for (int j = 0; j < orden; j++) {
+          if (i != j) {
+            printCaminoP(i, j);
+          }
+        }
+      }
+    }
+
+    public void printCamino(int desde, int hasta) {
+      System.out.println("Floyd");
+      printCaminoP(desde, hasta);
+    }
+
+    private void printCaminoP(int desde, int hasta) {
+      double costo = costos.getCosto(desde, hasta);
+      if (costo == inf) {
+        System.out.println("No hay camino entre " + desde + " y " + hasta);
+        return;
+      }
+      System.out.printf("%d --> %d = %.2f\n", desde, hasta, costo);
+      System.out.printf("(%d)", desde);
+      printCaminoRec(desde, hasta);
+      System.out.printf("(%d)\n", hasta);
+    }
+
+    private void printCaminoRec(int desde, int hasta) {
+      int camino = caminos.getVertice(desde, hasta);
+      if (camino == -1) {
+        System.out.print(" -> ");
+        return;
+      }
+      printCaminoRec(desde, camino);
+      System.out.print(camino);
+      printCaminoRec(camino, hasta);
     }
   }
 }

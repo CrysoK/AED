@@ -4,7 +4,7 @@ import TP6.QueueLL;
 import TP7.UList;
 import Utils.Par;
 
-public class Grafo implements OperacionesG {
+public abstract class Grafo implements OperacionesG {
 
   protected MatrizG matriz;
   protected int orden;
@@ -21,26 +21,27 @@ public class Grafo implements OperacionesG {
     orden = matriz.getFilas();
   }
 
+  protected Grafo() {}
+
+  public void setCosto(double costo, int vertice, int destino) {
+    matriz.set(costo, vertice, destino);
+  }
+
+  public void setArista(boolean conectado, int vertice, int destino) {
+    if (conectado) {
+      matriz.set(1, vertice, destino);
+    } else {
+      matriz.set(inf, vertice, destino);
+    }
+  }
+
   public int getOrden() {
     return orden;
   }
 
   public void printCostos() {
-    printCostosP(matriz);
-  }
-
-  protected void printCostosP(MatrizG costos) {
     System.out.println("Costos de las aristas:");
-    for (int f = 0; f < orden; f++) {
-      for (int c = 0; c < orden; c++) {
-        if (f != c) {
-          double costo = costos.getDouble(f, c);
-          if (costo != inf) {
-            System.out.printf("%d -> %d = %.2f\n", f, c, costo);
-          }
-        }
-      }
-    }
+    printCostosP(matriz);
   }
 
   public void printMatriz() {
@@ -58,6 +59,66 @@ public class Grafo implements OperacionesG {
     }
   }
 
+  public void printBusqEnProfundidad2() {
+    UList bep = busqEnProf2();
+    UList.Iterador iter = bep.iterador(0);
+    System.out.println("Busqueda en profundidad");
+    for (int i = 0; i < bep.length(); i++) {
+      printBusqEnProfRec((Par) iter.next());
+    }
+  }
+
+  public void printBusqEnAmplitud() {
+    boolean visitado[] = new boolean[orden];
+    System.out.println("Busqueda en amplitud");
+    for (int v = 0; v < orden; v++) {
+      if (!visitado[v]) {
+        busqEnAmpl(visitado, v);
+      }
+    }
+  }
+
+  protected void printCostosP(MatrizG costos) {
+    for (int f = 0; f < orden; f++) {
+      for (int c = 0; c < orden; c++) {
+        if (f != c) {
+          double costo = costos.getCosto(f, c);
+          if (costo != inf) {
+            System.out.printf("%d -> %d = %.2f\n", f, c, costo);
+          }
+        }
+      }
+    }
+  }
+
+  protected boolean esMenor(double a, double b) {
+    if (a == inf && b != inf) return false;
+    if (a != inf && b == inf) return true;
+    return a < b;
+  }
+
+  protected boolean esMayorIgual(double a, double b) {
+    if (a == inf && b != inf) return true;
+    if (a != inf && b == inf) return false;
+    if (a == inf && b == inf) return true;
+    return a >= b;
+  }
+
+  protected double sumar(double a, double b) {
+    if (a == inf || b == inf) return inf;
+    return a + b;
+  }
+
+  protected String quitarCeros(double n) {
+    if (n == (double) (int) n) {
+      return String.valueOf((int) n);
+    }
+    return Double.toString(n);
+    // Alternativa
+    // DecimalFormat formato = new DecimalFormat("0.#");
+    // return formato.format(n);
+  }
+
   private void busqEnProfRec(boolean[] visitado, int v) {
     visitado[v] = true;
     if (todoVisitado(v, visitado)) {
@@ -65,7 +126,7 @@ public class Grafo implements OperacionesG {
       return;
     }
     for (int i = 0; i < orden; i++) {
-      if (matriz.getDouble(v, i) != inf && !visitado[i]) {
+      if (matriz.getCosto(v, i) != inf && !visitado[i]) {
         System.out.printf("%d -> ", v);
         busqEnProfRec(visitado, i);
       }
@@ -74,7 +135,7 @@ public class Grafo implements OperacionesG {
 
   private boolean todoVisitado(int v, boolean[] visitado) {
     for (int i = 0; i < orden; i++) {
-      if (matriz.getDouble(v, i) != inf && !visitado[i]) {
+      if (matriz.getCosto(v, i) != inf && !visitado[i]) {
         return false;
       }
     }
@@ -102,21 +163,12 @@ public class Grafo implements OperacionesG {
     UList caminos = new UList();
     visitado[v] = true;
     for (int i = 0; i < orden; i++) {
-      if (matriz.getDouble(v, i) != inf && !visitado[i]) {
+      if (matriz.getCosto(v, i) != inf && !visitado[i]) {
         Par par = new Par(i, busqEnProf2Rec(visitado, i));
         caminos.insert(par);
       }
     }
     return caminos;
-  }
-
-  public void printBusqEnProfundidad2() {
-    UList bep = busqEnProf2();
-    UList.Iterador iter = bep.iterador(0);
-    System.out.println("Busqueda en profundidad");
-    for (int i = 0; i < bep.length(); i++) {
-      printBusqEnProfRec((Par) iter.next());
-    }
   }
 
   private void printBusqEnProfRec(Par par) {
@@ -136,16 +188,6 @@ public class Grafo implements OperacionesG {
     }
   }
 
-  public void printBusqEnAmplitud() {
-    boolean visitado[] = new boolean[orden];
-    System.out.println("Busqueda en amplitud");
-    for (int v = 0; v < orden; v++) {
-      if (!visitado[v]) {
-        busqEnAmpl(visitado, v);
-      }
-    }
-  }
-
   private void busqEnAmpl(boolean[] visitado, int v) {
     QueueLL cola = new QueueLL();
 
@@ -157,7 +199,7 @@ public class Grafo implements OperacionesG {
       int e = (int) cola.pop();
       boolean nuevoEncargado = false;
       for (int i = 0; i < orden; i++) {
-        if (matriz.getDouble(e, i) != inf && !visitado[i]) {
+        if (matriz.getCosto(e, i) != inf && !visitado[i]) {
           if (e != v && !nuevoEncargado) {
             System.out.println("(" + e + ")");
             nuevoEncargado = true;
@@ -170,29 +212,6 @@ public class Grafo implements OperacionesG {
     }
   }
 
-  protected boolean esMenor(double a, double b) {
-    if (a == inf && b != inf) return false;
-    if (a != inf && b == inf) return true;
-    return a < b;
-  }
-
-  protected boolean esMayorIgual(double a, double b) {
-    if (a == inf && b != inf) return true;
-    if (a != inf && b == inf) return false;
-    if (a == inf && b == inf) return true;
-    return a >= b;
-  }
-
-  protected double sumar(double a, double b) {
-    if (a == inf || b == inf) return inf;
-    return a + b;
-  }
-
   // PRUEBAS ///////////////////////////////////////////////////////////////////
-  public static void main(String[] args) {
-    Grafo g = new Grafo("G1.txt");
-    g.printBusqEnProfundidad();
-    System.out.println();
-    g.printBusqEnAmplitud();
-  }
+  public static void main(String[] args) {}
 }
