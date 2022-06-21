@@ -19,7 +19,6 @@ public class Set {
   private Comparator<Object> c;
   private OList lista;
 
-  // TODO
   public Set(Comparator<Object> comparador) {
     this.c = comparador;
     this.lista = new OList(c);
