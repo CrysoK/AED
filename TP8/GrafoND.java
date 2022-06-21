@@ -1,5 +1,6 @@
 package TP8;
 
+import TP7.List;
 import TP7.PQueue;
 import TP7.Set;
 import TP7.UList;
@@ -7,6 +8,9 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class GrafoND extends Grafo {
+
+  // Mensajes extra durante la ejecución
+  private static boolean INFO = false;
 
   public GrafoND(String archivo) {
     super(archivo);
@@ -39,9 +43,24 @@ public class GrafoND extends Grafo {
     matriz.writeToFile(archivo, "ND");
   }
 
+  /**
+   * El algoritmo de Prim determina un árbol recubridor mínimo de un grafo
+   * conexo, no dirigido y ponderado. Encuentra un subconjunto de aristas que
+   * forman un árbol con todos los vértices del grafo y donde el peso total de
+   * todas las aristas es el mínimo posible.
+   */
   public class Prim {
 
+    private UList arbol = new UList();
+    private double costoTotal = 0;
+
+    /**
+     * Ejecuta el algoritmo de Prim.
+     * @param inicio Vértice inicial.
+     */
     public Prim(int inicio) {
+      if (INFO) System.out.println("[Prim]");
+
       // Inicialización
       double[] costos = new double[orden];
       int[] padres = new int[orden];
@@ -58,7 +77,6 @@ public class GrafoND extends Grafo {
         int verticeMin = -1;
 
         // Búsqueda del vértice con costo mínimo
-
         for (int j = 0; j < orden; j++) {
           double costoAct = costos[j];
           if (
@@ -69,12 +87,23 @@ public class GrafoND extends Grafo {
           }
         }
 
-        System.out.printf("%d <-> %d\n", padres[verticeMin], verticeMin);
+        // Se incluye la "conexión" al árbol recubridor mínimo
+        arbol.insert(
+          new Conexion(padres[verticeMin], verticeMin, costos[verticeMin])
+        );
+        costoTotal += costos[verticeMin];
+
+        if (INFO) System.out.printf(
+          "%d <-> %d = %.2f\n",
+          padres[verticeMin],
+          verticeMin,
+          costos[verticeMin]
+        );
+
         costos[verticeMin] = inf;
         padres[verticeMin] = -1;
 
         // Actualización de costos
-
         for (int j = 0; j < orden; j++) {
           if (j == verticeMin) continue;
           double costoAct = costos[j];
@@ -88,101 +117,111 @@ public class GrafoND extends Grafo {
       }
     }
 
-    public void print() {}
+    public void print() {
+      System.out.println("[Prim]");
+      printARM(arbol, costoTotal);
+    }
   }
 
+  /**
+   * El algoritmo de Kruskal determina un árbol recubridor mínimo de un grafo
+   * conexo y ponderado. Encuentra un subconjunto de aristas que
+   * forman un árbol con todos los vértices del grafo y donde el peso total de
+   * todas las aristas es el mínimo posible.
+   */
   public class Kruskal {
 
+    private UList arbol = new UList();
+    private double costoTotal = 0;
+
+    /**
+     * Ejecuta el algoritmo de Kruskal.
+     */
     public Kruskal() {
-      Comparator<Object> cInts = new Comparator<Object>() {
+      if (INFO) System.out.println("[Kruskal]");
+      // Comparador para vértices (números enteros)
+      Comparator<Object> compVertices = new Comparator<Object>() {
         public int compare(Object a, Object b) {
           return ((int) a) - ((int) b);
         }
       };
-
-      Comparator<Object> cConexiones = new Comparator<Object>() {
+      // Comparador para "conexiones"
+      Comparator<Object> compConexiones = new Comparator<Object>() {
         public int compare(Object a, Object b) {
           // Se invierte el orden para ordenar de menor a mayor
           return ((Conexion) b).comparar((Conexion) a);
         }
       };
-
-      double currCost;
-      int counter;
-      int n;
-      int k;
-      int posI;
-      int posJ;
-      boolean flag;
-      Conexion conexion;
-      PQueue colaP = new PQueue(cConexiones);
-      Set conjuntoE;
-      Set conjuntoU;
+      // Inicialización de lista de conjuntos
       UList sets = new UList();
-
-      // Inicialización
-
       for (int i = 0; i < orden; i++) {
-        conjuntoE = new Set(cInts);
-        conjuntoE.add(i);
-        sets.insert(conjuntoE, i);
+        Set set = new Set(compVertices);
+        set.add(i);
+        sets.insert(set, i);
       }
-
       // Creación de la cola de prioridad
-
+      PQueue conexiones = new PQueue(compConexiones);
       for (int i = 0; i < orden; i++) {
         for (int j = i + 1; j < orden; j++) {
-          currCost = matriz.getCosto(i, j);
-          if (currCost != inf) {
-            colaP.push(new Conexion(i, j, currCost));
+          double costo = matriz.getCosto(i, j);
+          if (costo != inf) {
+            conexiones.push(new Conexion(i, j, costo));
           }
         }
       }
+      // Creación del árbol recubridor mínimo
+      while (arbol.length() < orden - 1) {
+        Conexion c = (Conexion) conexiones.pop();
+        double costo = c.getCosto();
+        int a = c.getA();
+        int b = c.getB();
+        if (INFO) System.out.printf("%d <-> %d = %.2f\n", a, b, costo);
+        // Búsqueda de los conjuntos que contienen a los vértices 'a' y 'b'
+        int posA = -1;
+        int posB = -1;
+        int posSet = 0;
+        while (
+          (posSet <= sets.length() - 1) &&
+          (posA == -1 || posB == -1 || posA != posB)
+        ) {
+          Set set = (Set) sets.get(posSet);
+          posA = set.esElemento(a) ? posSet : posA;
+          posB = set.esElemento(b) ? posSet : posB;
+          posSet += 1;
 
-      counter = orden;
-      while (counter > 1) {
-        conexion = (Conexion) colaP.pop();
-        System.out.printf(
-          "%d <-> %d = %.2f\n",
-          conexion.getA(),
-          conexion.getB(),
-          conexion.getCosto()
-        );
-        n = sets.length() - 1;
-        k = 0;
-        flag = false;
-        posI = posJ = -1;
-
-        while (k <= n && !flag) {
-          conjuntoE = (Set) sets.get(k);
-          System.out.print(conjuntoE + " ");
-          if (conjuntoE.esElemento(conexion.getA())) {
-            posI = k;
-          }
-          if (conjuntoE.esElemento(conexion.getB())) {
-            posJ = k;
-          }
-          if (posI > 0 && posJ > 0 && posI == posJ) {
-            flag = true;
-          } else {
-            k++;
-          }
+          if (INFO) System.out.print(set + " ");
         }
-        System.out.println();
+        if (INFO) System.out.println();
+        // Si los conjuntos son distintos, se unen
+        if (posA != posB) {
+          Set setA = (Set) sets.get(posA);
+          Set setB = (Set) sets.get(posB);
+          Set setU = setA.union(setB, compVertices);
+          sets.replace(setU, posA);
+          sets.del(posB);
+          // Y se incluye la "conexión" al árbol
+          arbol.insert(c);
+          costoTotal += costo;
 
-        if (!flag) {
-          System.out.printf(
-            "(Árbol mínimo) %d <-> %d = %.2f\n",
-            conexion.getA(),
-            conexion.getB(),
-            conexion.getCosto()
-          );
-          conjuntoU = ((Set) sets.get(posI)).union((Set) sets.get(posJ), cInts);
-          sets.replace(conjuntoU, posI);
-          sets.del(posJ);
-          counter--;
+          if (INFO) {
+            System.out.printf("Árbol mínimo: %d <-> %d = %.2f\n", a, b, costo);
+          }
         }
       }
+    }
+
+    public void print() {
+      System.out.println("[Kruskal]");
+      printARM(arbol, costoTotal);
+    }
+  }
+
+  private void printARM(UList arbol, double costo) {
+    System.out.printf("Arbol recubridor mínimo (costo total: %.2f)\n", costo);
+    List.Iterador it = arbol.iterador(0);
+    while (it.hasNext()) {
+      Conexion c = (Conexion) it.next();
+      System.out.printf("%d <-> %d = %.2f\n", c.getA(), c.getB(), c.getCosto());
     }
   }
 }

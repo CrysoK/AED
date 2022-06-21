@@ -8,17 +8,21 @@ public class Tests {
 
   static String sep = File.separator;
   static String carpetaGrafos = "TP8" + sep + "Grafos" + sep;
-  // El cambio de Locale sirve para usar el punto como separador decimal
-  static Scanner input = new Scanner(System.in).useLocale(Locale.ENGLISH);
+  static Scanner input = new Scanner(System.in)/* .useLocale(Locale.ENGLISH) */;
 
   public static void main(String[] args) {
+    // El cambio de Locale sirve para usar el punto como separador decimal
+    Locale.setDefault(Locale.ENGLISH);
+
     // "GND7.txt"
     GrafoND gND7 = new GrafoND(carpetaGrafos + "GND7.txt");
     // gND7.printMatriz();
     gND7.printCostos();
     System.out.println();
-    // GrafoND.Prim prim = gND7.new Prim(0);
+    GrafoND.Prim prim = gND7.new Prim(0);
+    prim.print();
     GrafoND.Kruskal kruskal = gND7.new Kruskal();
+    kruskal.print();
   }
 
   public static void crearGD(String archivo) {

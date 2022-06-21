@@ -35,12 +35,20 @@ public class GrafoD extends Grafo {
     matriz.writeToFile(archivo, "D");
   }
 
+  /**
+   * El algoritmo de Dijkstra determina el camino más corto (según el costo de
+   * las aristas) entre un vértice dado y el resto de vértices del grafo.
+   */
   public class Dijkstra {
 
     private double[] costos = new double[orden];
     private int[] caminos = new int[orden];
     private int inicio;
 
+    /**
+     * Ejecuta el algoritmo de Dijkstra.
+     * @param inicio Vértice inicial.
+     */
     public Dijkstra(int inicio) {
       boolean[] visitados = new boolean[orden];
       this.inicio = inicio;
@@ -97,6 +105,10 @@ public class GrafoD extends Grafo {
       return caminos;
     }
 
+    /**
+     * Muestra el camino más corto entre el vértice inicial y un vértice dado.
+     * @param hasta Vértice final.
+     */
     public void print(int hasta) {
       System.out.println("[Dijkstra]");
       System.out.printf(
@@ -130,11 +142,18 @@ public class GrafoD extends Grafo {
     }
   }
 
+  /**
+   * El algoritmo de Floyd determina el camino mínimo entre todos los pares de
+   * vértices de un grafo dirigido ponderado.
+   */
   public class Floyd {
 
     private MatrizG costos = new MatrizG(orden);
     private MatrizG caminos = new MatrizG(orden);
 
+    /**
+     * Ejecuta el algoritmo de Floyd.
+     */
     public Floyd() {
       // Inicialización de costos y caminos
       for (int i = 0; i < orden; i++) {
@@ -172,12 +191,18 @@ public class GrafoD extends Grafo {
       return caminos;
     }
 
+    /**
+     * Muestra los costos mínimos entre todos los pares de vértices.
+     */
     public void printCostos() {
       System.out.println("[Floyd]");
       System.out.println("Costos mínimos entre pares de vértices:");
       printCostosP(costos);
     }
 
+    /**
+     * Muestra los caminos mínimos entre todos los pares de vértices.
+     */
     public void printCaminos() {
       System.out.println("[Floyd]");
       System.out.println("Caminos con costo mínimo entre pares de vértices:");
@@ -190,6 +215,11 @@ public class GrafoD extends Grafo {
       }
     }
 
+    /**
+     * Muestra el camino mínimo entre dos vértices.
+     * @param desde Vértice inicial.
+     * @param hasta Vértice final.
+     */
     public void printCamino(int desde, int hasta) {
       System.out.println("Floyd");
       printCaminoP(desde, hasta);
