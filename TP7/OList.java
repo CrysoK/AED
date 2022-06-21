@@ -48,13 +48,31 @@ public class OList extends List implements CLineal4 {
     return search(dato, this.c);
   }
 
-  public int search(Object dato, Comparator<Object> c) {
-    return (int) searchNodePos(dato, c)[1];
+  public int search(Object dato, Comparator<Object> comparador) {
+    return (int) searchNodePos(dato, comparador)[1];
   }
 
-  private Object[] searchNodePos(Object dato, Comparator<Object> c) {
+  private Object[] searchNodePos(Object dato, Comparator<Object> comp) {
     if (this.isEmpty()) {
       return new Object[] { null, -1 };
+    }
+    NodoD nodo = this.first;
+    int pos = 0;
+    while (nodo != null) {
+      if (comp.compare(dato, nodo.getDato()) == 0) {
+        return new Object[] { nodo, pos };
+      }
+      nodo = nodo.getNext();
+      pos += 1;
+    }
+    return new Object[] { null, -1 };
+  }
+
+  // Solo para probar rendimiento, que resultó peor que la búsqueda lineal
+  public int searchBin(Object dato) {
+    if (this.isEmpty()) {
+      return -1;
+      // return new Object[] { null, -1 };
     }
     // Búsqueda binaria
     int izqPos = 0;
@@ -82,7 +100,8 @@ public class OList extends List implements CLineal4 {
     if (c.compare(dato, izq.getDato()) != 0) {
       izqPos = -1;
     }
-    return new Object[] { izq, izqPos };
+    return izqPos;
+    // return new Object[] { izq, izqPos };
   }
 
   public String toString() {
