@@ -14,9 +14,11 @@ public class Tests {
   public static void main(String[] args) {
     // "GND7.txt"
     GrafoND gND7 = new GrafoND(carpetaGrafos + "GND7.txt");
-    gND7.printMatriz();
+    // gND7.printMatriz();
     gND7.printCostos();
+    System.out.println();
     // GrafoND.Prim prim = gND7.new Prim(0);
+    GrafoND.Kruskal kruskal = gND7.new Kruskal();
   }
 
   public static void crearGD(String archivo) {

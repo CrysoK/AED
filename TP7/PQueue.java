@@ -21,20 +21,21 @@ public class PQueue extends QueueLL {
   }
 
   // Se inserta ordenando de mayor a menor.
+  @Override
   public boolean push(Object dato) {
-    if (super.isEmpty()) {
-      super.first = super.last = new NodoS(dato);
+    if (isEmpty()) {
+      first = last = new NodoS(dato);
       // Si es mayor al primero
-    } else if (comparador.compare(dato, super.first.getDato()) > 0) {
-      super.first = new NodoS(dato, super.first);
+    } else if (comparador.compare(dato, first.getDato()) > 0) {
+      first = new NodoS(dato, first);
       // Si es menor al último
-    } else if (comparador.compare(dato, super.last.getDato()) < 0) {
-      super.last.setNext(new NodoS(dato));
-      super.last = super.last.getNext();
+    } else if (comparador.compare(dato, last.getDato()) < 0) {
+      last.setNext(new NodoS(dato));
+      last = last.getNext();
       // Si está en el medio, se posiciona a la izquierda si es mayor y a la
       // derecha si es igual o menor.
     } else {
-      NodoS current = super.first;
+      NodoS current = first;
       NodoS prev = null;
       while (
         current != null && comparador.compare(dato, current.getDato()) <= 0
@@ -45,18 +46,6 @@ public class PQueue extends QueueLL {
       prev.setNext(new NodoS(dato, current));
     }
     return true;
-  }
-
-  public Object pop() {
-    return super.pop();
-  }
-
-  public void clear() {
-    super.clear();
-  }
-
-  public boolean isEmpty() {
-    return super.isEmpty();
   }
 
   public static void main(String[] args) {

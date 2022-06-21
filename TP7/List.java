@@ -129,7 +129,7 @@ public abstract class List implements CLineal2 {
     }
 
     public boolean hasNext() {
-      return this.actual.getNext() != null;
+      return this.actual != null;
     }
 
     public Object next() {

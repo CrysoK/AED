@@ -24,7 +24,7 @@ public class Conexion {
     return costo;
   }
 
-  public double comparar(Conexion b) {
-    return this.costo - b.costo;
+  public int comparar(Conexion b) {
+    return (int) (this.costo - b.costo);
   }
 }

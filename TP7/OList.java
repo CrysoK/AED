@@ -53,6 +53,9 @@ public class OList extends List implements CLineal4 {
   }
 
   private Object[] searchNodePos(Object dato, Comparator<Object> c) {
+    if (this.isEmpty()) {
+      return new Object[] { null, -1 };
+    }
     // Búsqueda binaria
     int izqPos = 0;
     int derPos = this.lastPos;
@@ -63,10 +66,10 @@ public class OList extends List implements CLineal4 {
       int midPos = (int) Math.ceil((float) (izqPos + derPos) / 2.0);
       NodoD mid = getNodo(midPos - izqPos, derPos - izqPos, izq, der);
 
-      System.out.println(
-        "izqPos: " + izqPos + " midPos: " + midPos + " derPos: " + derPos
-      );
-      System.out.println("izq: " + izq + " mid: " + mid + " der: " + der);
+      // System.out.println(
+      //   "izqPos: " + izqPos + " midPos: " + midPos + " derPos: " + derPos
+      // );
+      // System.out.println("izq: " + izq + " mid: " + mid + " der: " + der);
 
       if (c.compare(dato, mid.getDato()) < 0) {
         derPos = midPos - 1;

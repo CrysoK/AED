@@ -1,5 +1,7 @@
 package TP7;
 
+import java.util.Comparator;
+
 // import java.util.Comparator;
 
 /*
@@ -13,5 +15,198 @@ package TP7;
  */
 
 public class Set {
+
+  private Comparator<Object> c;
+  private OList lista;
+
   // TODO
+  public Set(Comparator<Object> comparador) {
+    this.c = comparador;
+    this.lista = new OList(c);
+  }
+
+  public Set(Comparator<Object> comparador, Object... elementos) {
+    this(comparador);
+    for (Object e : elementos) {
+      this.add(e);
+    }
+  }
+
+  public void clear() {
+    this.lista.clear();
+  }
+
+  public Comparator<Object> getComparador() {
+    return this.c;
+  }
+
+  @Override
+  public String toString() {
+    List.Iterador it = this.lista.iterador(0);
+    if (it == null) {
+      return "{ }";
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append("{");
+    while (it.hasNext()) {
+      sb.append(it.next());
+      if (it.hasNext()) {
+        sb.append(", ");
+      }
+    }
+    sb.append("}");
+    return sb.toString();
+  }
+
+  // Entrada y salida de datos
+
+  public void add(Object elemento) {
+    if (!this.esElemento(elemento)) {
+      this.lista.insert(elemento);
+    }
+  }
+
+  public Object pop(Object elemento) {
+    return null;
+  }
+
+  public void remove(Object elemento) {}
+
+  // Consultas
+
+  public boolean esElemento(Object elemento) {
+    return this.lista.search(elemento) >= 0 ? true : false;
+  }
+
+  public boolean esSubconjunto(Set b) {
+    List.Iterador itB = b.lista.iterador(0);
+    // Se busca cada elemento de B en A
+    for (int i = 0; i < b.lista.length(); i++) {
+      if (!this.esElemento(itB.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public boolean igual(Set b, boolean mismoComparador) {
+    return mismoComparador ? igualMismoC(b) : igualDifC(b);
+  }
+
+  private boolean igualMismoC(Set b) {
+    List.Iterador itA = this.lista.iterador(0);
+    List.Iterador itB = b.lista.iterador(0);
+
+    while (itA.hasNext() && itB.hasNext()) {
+      Object eA = itA.next();
+      Object eB = itB.next();
+      if (this.c.compare(eA, eB) != 0) {
+        return false;
+      }
+    }
+    if (itA.hasNext() || itB.hasNext()) {
+      return false;
+    }
+    return true;
+  }
+
+  private boolean igualDifC(Set b) {
+    // Hay que buscar cada elemento de A en B y cada elemento de B en A
+    List.Iterador itA = this.lista.iterador(0);
+    List.Iterador itB = b.lista.iterador(0);
+
+    while (itA.hasNext()) {
+      if (!b.esElemento(itA.next())) {
+        return false;
+      }
+    }
+    while (itB.hasNext()) {
+      if (!this.esElemento(itB.next())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public int size() {
+    return this.lista.length();
+  }
+
+  public boolean isEmpty() {
+    return false;
+  }
+
+  // Operaciones
+
+  public Set union(Set b, Comparator<Object> comparador) {
+    Set c = new Set(comparador);
+    List.Iterador itA = this.lista.iterador(0);
+    List.Iterador itB = b.lista.iterador(0);
+
+    while (itA.hasNext()) {
+      c.add(itA.next());
+    }
+
+    while (itB.hasNext()) {
+      c.add(itB.next());
+    }
+
+    return c;
+  }
+
+  public Set interseccion(Set b, Comparator<Object> comparador) {
+    // Se asume que los conjuntos están ordenados con criterios diferentes
+    Set c = new Set(comparador);
+    List.Iterador itA = this.lista.iterador(0);
+
+    while (itA.hasNext()) {
+      Object eA = itA.next();
+      if (b.esElemento(eA)) {
+        c.add(eA);
+      }
+    }
+
+    return c;
+  }
+
+  public Set diferencia(Set b, Comparator<Object> comparador) {
+    // Se asume que los conjuntos están ordenados con criterios diferentes
+    Set c = new Set(comparador);
+    List.Iterador itA = this.lista.iterador(0);
+
+    while (itA.hasNext()) {
+      Object eA = itA.next();
+      if (!b.esElemento(eA)) {
+        c.add(eA);
+      }
+    }
+
+    return c;
+  }
+
+  // PRUEBAS ///////////////////////////////////////////////////////////////////
+
+  public static void main(String[] args) {
+    Comparator<Object> cInts = new Comparator<Object>() {
+      public int compare(Object a, Object b) {
+        return ((Integer) a) - ((Integer) b);
+      }
+    };
+
+    Set a = new Set(cInts, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 4, 15);
+    Set b = new Set(cInts, 2, 4, 6, 8, 10, 16);
+
+    System.out.println("A = " + a);
+    System.out.println("B = " + b);
+
+    System.out.println("B ⊂ A: " + a.esSubconjunto(b));
+    System.out.println("A ⊂ B: " + b.esSubconjunto(a));
+
+    System.out.println("15 ∈ A: " + a.esElemento(15));
+
+    System.out.println("A ∪ B: " + a.union(b, cInts));
+    System.out.println("A ∩ B: " + a.interseccion(b, cInts));
+    System.out.println("A - B: " + a.diferencia(b, cInts));
+    System.out.println("B - A: " + b.diferencia(a, cInts));
+  }
 }
