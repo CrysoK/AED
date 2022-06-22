@@ -2,11 +2,11 @@ package TP6;
 
 // EJERCICIO 5
 
-public class StackLL extends Stack {
+public class PilaLL extends Pila {
 
   private NodoS head;
 
-  public StackLL() {
+  public PilaLL() {
     this.head = null;
   }
 

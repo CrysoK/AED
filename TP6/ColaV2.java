@@ -2,12 +2,12 @@ package TP6;
 
 // EJERCICIO 10
 
-public class QueueV2 extends QueueLL {
+public class ColaV2 extends ColaLL {
 
   private int cardinal;
 
   // Esta clase sabe en todo momento cuántos elementos contiene.
-  public QueueV2() {
+  public ColaV2() {
     super();
     this.cardinal = 0;
   }
@@ -45,7 +45,7 @@ public class QueueV2 extends QueueLL {
    * @Postcondición: Cola en orden inverso.
    */
   public void reverse() {
-    Stack pila = new StackLL();
+    Pila pila = new PilaLL();
     while (!this.isEmpty()) pila.push(this.pop());
     while (!pila.isEmpty()) this.push(pila.pop());
   }
@@ -57,12 +57,12 @@ public class QueueV2 extends QueueLL {
    * @Postcondición: Cola tiene los elementos de {@code q} añadidos al final
    *                 manteniendo el orden.
    */
-  public void concat(QueueV2 q) {
+  public void concat(ColaV2 q) {
     while (!q.isEmpty()) this.push(q.pop());
   }
 
   public static void main(String[] args) {
-    QueueV2 q1 = new QueueV2();
+    ColaV2 q1 = new ColaV2();
     q1.push(1);
     q1.push(2);
     q1.push(3);
@@ -73,7 +73,7 @@ public class QueueV2 extends QueueLL {
     q1.push(8);
     q1.push(9);
     q1.push(10);
-    QueueV2 q2 = new QueueV2();
+    ColaV2 q2 = new ColaV2();
     q2.push(11);
     q2.push(12);
     q2.push(13);

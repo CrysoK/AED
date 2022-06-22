@@ -2,13 +2,13 @@ package TP6;
 
 // EJERCICIO 4
 
-public class QueueArr extends Queue {
+public class ColaArr extends Cola {
 
   private Object[] datos;
   private int first;
   private int last;
 
-  public QueueArr(int size) {
+  public ColaArr(int size) {
     this.datos = new Object[size + 1];
     clear();
   }

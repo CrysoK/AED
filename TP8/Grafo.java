@@ -1,6 +1,6 @@
 package TP8;
 
-import TP6.QueueLL;
+import TP6.ColaLL;
 import TP7.UList;
 import Utils.Par;
 
@@ -189,7 +189,7 @@ public abstract class Grafo implements OperacionesG {
   }
 
   private void busqEnAmpl(boolean[] visitado, int v) {
-    QueueLL cola = new QueueLL();
+    ColaLL cola = new ColaLL();
 
     System.out.println("Inicio: " + v);
     visitado[v] = true;

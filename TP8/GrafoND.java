@@ -1,7 +1,7 @@
 package TP8;
 
 import TP7.List;
-import TP7.PQueue;
+import TP7.ColaP;
 import TP7.Set;
 import TP7.UList;
 import java.util.Comparator;
@@ -160,7 +160,7 @@ public class GrafoND extends Grafo {
         sets.insert(set, i);
       }
       // Creación de la cola de prioridad
-      PQueue conexiones = new PQueue(compConexiones);
+      ColaP conexiones = new ColaP(compConexiones);
       for (int i = 0; i < orden; i++) {
         for (int j = i + 1; j < orden; j++) {
           double costo = matriz.getCosto(i, j);

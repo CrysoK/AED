@@ -2,7 +2,7 @@ package TP6;
 
 // EJERCICIO 7
 
-public class StackArr2 extends StackArr {
+public class PilaArr2 extends PilaArr {
 
   // Obtener tope sin eliminarlo
   public Object tope() {
@@ -12,7 +12,7 @@ public class StackArr2 extends StackArr {
     return dato;
   }
 
-  public StackArr2(int size) {
+  public PilaArr2(int size) {
     super(size);
   }
 }

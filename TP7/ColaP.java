@@ -1,7 +1,7 @@
 package TP7;
 
 import TP6.NodoS;
-import TP6.QueueLL;
+import TP6.ColaLL;
 import java.util.Comparator;
 
 /*
@@ -11,11 +11,11 @@ import java.util.Comparator;
  * funcionalidad del contenedor.
  */
 
-public class PQueue extends QueueLL {
+public class ColaP extends ColaLL {
 
   private Comparator<Object> comparador;
 
-  public PQueue(Comparator<Object> c) {
+  public ColaP(Comparator<Object> c) {
     super();
     comparador = c;
   }
@@ -49,7 +49,7 @@ public class PQueue extends QueueLL {
   }
 
   public static void main(String[] args) {
-    PQueue colaPrioridad = new PQueue((a, b) ->
+    ColaP colaPrioridad = new ColaP((a, b) ->
       ((Proceso) a).getPrioridad() - ((Proceso) b).getPrioridad()
     );
 

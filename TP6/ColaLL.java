@@ -2,7 +2,7 @@ package TP6;
 
 // EJERCICIO 6
 
-public class QueueLL extends Queue {
+public class ColaLL extends Cola {
 
   protected NodoS first;
   protected NodoS last;

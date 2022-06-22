@@ -2,12 +2,12 @@ package TP6;
 
 // EJERCICIO 2
 
-public class StackArr extends Stack {
+public class PilaArr extends Pila {
 
   private Object[] stack;
   private int top;
 
-  public StackArr(int size) {
+  public PilaArr(int size) {
     this.stack = new Object[size];
     this.top = -1;
   }
