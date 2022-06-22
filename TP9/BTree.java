@@ -88,7 +88,7 @@ public abstract class BTree implements OperacionesBT {
     return cntHojas(raiz);
   }
 
-  private int cntHojas(NodoBT nodo) {
+  public static int cntHojas(NodoBT nodo) {
     if (nodo == null) return 0;
     if (nodo.getIzq() == null && nodo.getDer() == null) return 1;
     return cntHojas(nodo.getIzq()) + cntHojas(nodo.getDer());
@@ -99,7 +99,7 @@ public abstract class BTree implements OperacionesBT {
     return getAltura(raiz);
   }
 
-  private int getAltura(NodoBT nodo) {
+  public static int getAltura(NodoBT nodo) {
     if (nodo == null) return -1;
     int izq = getAltura(nodo.getIzq());
     int der = getAltura(nodo.getDer());

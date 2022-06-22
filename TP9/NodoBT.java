@@ -2,9 +2,9 @@ package TP9;
 
 public class NodoBT {
 
-  private Object dato;
-  private NodoBT izq;
-  private NodoBT der;
+  protected Object dato;
+  protected NodoBT izq;
+  protected NodoBT der;
 
   public NodoBT(Object dato, NodoBT izq, NodoBT der) {
     this.dato = dato;
@@ -49,9 +49,9 @@ public class NodoBT {
     this.der = der;
   }
 
-  public boolean setHijo(int direccion, NodoBT hijo) {
-    if (direccion < -1 || direccion == 0 || direccion > 1) return false;
-    if (direccion == -1) this.izq = hijo; else this.der = hijo;
+  public boolean setHijo(int lado, NodoBT hijo) {
+    if (lado < -1 || lado == 0 || lado > 1) return false;
+    if (lado == -1) this.izq = hijo; else this.der = hijo;
     return true;
   }
 
