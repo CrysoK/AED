@@ -2,7 +2,7 @@ package TP6;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Tests {
+public class Test1 {
 
   static class Cliente {
 
@@ -50,7 +50,7 @@ public class Tests {
    *   simulación, debe usar tres objetos instanciados de la clase.
    * - Puede usar la clase clsColaLinkedList.
    */
-  public static void simulacion() {
+  public static void main(String[] args) {
     int cntClientes = ThreadLocalRandom.current().nextInt(1, 20 + 1);
     int cntCajeros = 3;
     int sumaTiempos = 0;
@@ -81,9 +81,5 @@ public class Tests {
         " clientes"
       );
     }
-  }
-
-  public static void main(String[] args) {
-    simulacion();
   }
 }

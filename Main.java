@@ -8,7 +8,5 @@ public class Main {
      * por ejemplo 'java TP7.Main'. También se pueden llamar en este mismo
      * archivo y usar el botón Run.
      */
-
-    TP7.OList.main(args);
   }
 }

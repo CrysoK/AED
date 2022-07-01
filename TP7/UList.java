@@ -62,17 +62,4 @@ public class UList extends List implements CLineal3 {
     }
     return true;
   }
-
-  // PRUEBAS ///////////////////////////////////////////////////////////////////
-
-  public static void main(String[] args) {
-    UList l = new UList();
-    l.insert(1);
-    l.insert(2);
-    l.insert(3);
-
-    System.out.println(l.get(0));
-    System.out.println(l.get(1));
-    System.out.println(l.get(2));
-  }
 }

@@ -1,6 +1,8 @@
-package TP7;
+package TP7.Tests;
 
-public class Tests {
+import TP7.OList;
+
+public class Test1 {
 
   /**
    * Rendimiento de búsqueda binaria y búsqueda lineal en una lista
